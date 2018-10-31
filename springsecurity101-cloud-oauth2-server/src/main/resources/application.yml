@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: oauth2-server
+  datasource:
+    url: jdbc:mysql://localhost:3306/oauth?useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8865/eureka/
+#    registry-fetch-interval-seconds: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
