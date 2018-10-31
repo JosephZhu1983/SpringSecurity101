@@ -13,11 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("user")
 public class UserController {
 
     @Autowired
     private TokenStore tokenStore;
+
+    @PreAuthorize("hasAuthority('READ') or hasAuthority('WRITE')")
+    @GetMapping("name")
+    public String name(OAuth2Authentication authentication) {
+        return authentication.getName();
+    }
 
     @PreAuthorize("hasAuthority('READ') or hasAuthority('WRITE')")
     @GetMapping

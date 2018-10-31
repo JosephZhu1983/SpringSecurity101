@@ -10,12 +10,6 @@ spring:
     password: root
     driver-class-name: com.mysql.jdbc.Driver
 
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:8865/eureka/
-#    registry-fetch-interval-seconds: 5
-
 management:
   endpoints:
     web:

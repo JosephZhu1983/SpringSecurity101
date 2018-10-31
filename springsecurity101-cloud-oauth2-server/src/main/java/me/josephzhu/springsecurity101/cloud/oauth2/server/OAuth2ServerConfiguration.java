@@ -17,6 +17,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.sql.DataSource;
 import java.util.Arrays;
@@ -36,7 +38,8 @@ public class OAuth2ServerConfiguration extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.allowFormAuthenticationForClients().passwordEncoder(NoOpPasswordEncoder.getInstance());
+        security.checkTokenAccess("permitAll()")
+                .allowFormAuthenticationForClients().passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
 
     @Override
@@ -66,5 +69,13 @@ public class OAuth2ServerConfiguration extends AuthorizationServerConfigurerAdap
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setKeyPair(keyStoreKeyFactory.getKeyPair("jwt"));
         return converter;
+    }
+
+    @Configuration
+    static class MvcConfig implements WebMvcConfigurer {
+        @Override
+        public void addViewControllers(ViewControllerRegistry registry) {
+            registry.addViewController("login").setViewName("login");
+        }
     }
 }
