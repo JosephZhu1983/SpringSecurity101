@@ -2,7 +2,6 @@ package me.josephzhu.springsecurity101.cloud.oauth2.userservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
@@ -27,7 +26,7 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('READ') or hasAuthority('WRITE')")
     @GetMapping
-    public Authentication read(OAuth2Authentication authentication) {
+    public OAuth2Authentication read(OAuth2Authentication authentication) {
         return authentication;
     }
 
