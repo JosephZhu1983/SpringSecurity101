@@ -9,12 +9,3 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: always
