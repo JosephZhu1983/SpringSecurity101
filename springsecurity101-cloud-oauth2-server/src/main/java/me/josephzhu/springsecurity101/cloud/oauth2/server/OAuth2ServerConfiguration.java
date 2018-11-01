@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -48,7 +49,8 @@ public class OAuth2ServerConfiguration extends AuthorizationServerConfigurerAdap
         tokenEnhancerChain.setTokenEnhancers(
                 Arrays.asList(tokenEnhancer(), jwtTokenEnhancer()));
 
-        endpoints.tokenStore(tokenStore())
+        endpoints.approvalStore(approvalStore())
+                .tokenStore(tokenStore())
                 .tokenEnhancer(tokenEnhancerChain)
                 .authenticationManager(authenticationManager);
     }
@@ -56,6 +58,11 @@ public class OAuth2ServerConfiguration extends AuthorizationServerConfigurerAdap
     @Bean
     public TokenStore tokenStore() {
         return new JwtTokenStore(jwtTokenEnhancer());
+    }
+
+    @Bean
+    public JdbcApprovalStore approvalStore() {
+        return new JdbcApprovalStore(dataSource);
     }
 
     @Bean

@@ -26,7 +26,7 @@ spring:
   thymeleaf:
     cache: false
 
-logging:
-  level:
-    ROOT: DEBUG
+#logging:
+#  level:
+#    ROOT: DEBUG
 
