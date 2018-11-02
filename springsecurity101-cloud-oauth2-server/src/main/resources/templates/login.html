@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" class="uk-height-1-1">
 <head>
     <meta charset="UTF-8"/>
-    <title>OAuth2 SSO Demo</title>
+    <title>OAuth2 Demo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.26.3/css/uikit.gradient.min.css"/>
 </head>
 
@@ -13,11 +13,7 @@
         <h1>Login Form</h1>
 
         <p class="uk-text-danger" th:if="${param.error}">
-            Login failed ...
-        </p>
-
-        <p class="uk-text-success" th:if="${param.logout}">
-            Logout succeeded.
+            用户名或密码错误...
         </p>
 
         <form class="uk-panel uk-panel-box uk-form" method="post" th:action="@{/login}">

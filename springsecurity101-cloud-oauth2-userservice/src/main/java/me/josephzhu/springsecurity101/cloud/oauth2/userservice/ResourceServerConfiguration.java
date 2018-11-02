@@ -21,16 +21,15 @@ import java.io.IOException;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
+    /**
+     * 代码1
+     *
+     * @param resources
+     * @throws Exception
+     */
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.resourceId("foo").tokenStore(tokenStore());
-    }
-
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/api/**").authenticated()
-                .anyRequest().permitAll();
     }
 
     @Bean
@@ -50,5 +49,18 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         }
         converter.setVerifierKey(publicKey);
         return converter;
+    }
+
+    /**
+     * 代码2
+     *
+     * @param http
+     * @throws Exception
+     */
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/user/**").authenticated()
+                .anyRequest().permitAll();
     }
 }

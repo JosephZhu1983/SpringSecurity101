@@ -12,6 +12,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -32,17 +34,33 @@ public class OAuth2ServerConfiguration extends AuthorizationServerConfigurerAdap
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    /**
+     * 代码1
+     *
+     * @param clients
+     * @throws Exception
+     */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.jdbc(dataSource);
     }
 
+    /**
+     * 代码2
+     * @param security
+     * @throws Exception
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.checkTokenAccess("permitAll()")
                 .allowFormAuthenticationForClients().passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
 
+    /**
+     * 代码3
+     * @param endpoints
+     * @throws Exception
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
@@ -50,9 +68,15 @@ public class OAuth2ServerConfiguration extends AuthorizationServerConfigurerAdap
                 Arrays.asList(tokenEnhancer(), jwtTokenEnhancer()));
 
         endpoints.approvalStore(approvalStore())
+                .authorizationCodeServices(authorizationCodeServices())
                 .tokenStore(tokenStore())
                 .tokenEnhancer(tokenEnhancerChain)
                 .authenticationManager(authenticationManager);
+    }
+
+    @Bean
+    public AuthorizationCodeServices authorizationCodeServices() {
+        return new JdbcAuthorizationCodeServices(dataSource);
     }
 
     @Bean
@@ -78,6 +102,9 @@ public class OAuth2ServerConfiguration extends AuthorizationServerConfigurerAdap
         return converter;
     }
 
+    /**
+     * 代码4
+     */
     @Configuration
     static class MvcConfig implements WebMvcConfigurer {
         @Override
