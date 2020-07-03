@@ -18,18 +18,34 @@ public class UserController {
     @Autowired
     private TokenStore tokenStore;
 
+    /***
+     * 读权限或写权限可访问，返回登录用户名
+     * @param authentication
+     * @return
+     */
     @PreAuthorize("hasAuthority('READ') or hasAuthority('WRITE')")
     @GetMapping("name")
     public String name(OAuth2Authentication authentication) {
         return authentication.getName();
     }
 
+    /**
+     * 读权限或写权限可访问，返回登录用户信息
+     *
+     * @param authentication
+     * @return
+     */
     @PreAuthorize("hasAuthority('READ') or hasAuthority('WRITE')")
     @GetMapping
     public OAuth2Authentication read(OAuth2Authentication authentication) {
         return authentication;
     }
 
+    /**
+     * 只有写权限可以访问，返回访问令牌中的额外信息
+     * @param authentication
+     * @return
+     */
     @PreAuthorize("hasAuthority('WRITE')")
     @PostMapping
     public Object write(OAuth2Authentication authentication) {

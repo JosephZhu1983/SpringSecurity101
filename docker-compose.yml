@@ -1,0 +1,17 @@
+version: "3.6"
+services:
+  redis:
+    image: redis:3
+    container_name: oauth2-redis-3
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+  mysql57:
+    image: mysql:5.7
+    container_name: oauth2-mysql57
+    environment:
+      MYSQL_ROOT_PASSWORD: kIo9u7Oi0eg
+    ports:
+      - "6657:3306"
+    volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d/

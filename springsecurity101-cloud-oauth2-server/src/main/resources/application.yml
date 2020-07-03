@@ -5,7 +5,7 @@ spring:
   application:
     name: oauth2-server
   datasource:
-    url: jdbc:mysql://localhost:3306/oauth?useSSL=false
+    url: jdbc:mysql://localhost:6657/oauth?useSSL=false
     username: root
-    password: root
+    password: kIo9u7Oi0eg
     driver-class-name: com.mysql.jdbc.Driver

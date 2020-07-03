@@ -16,6 +16,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         Authentication userAuthentication = authentication.getUserAuthentication();
         if (userAuthentication != null) {
             Object principal = authentication.getUserAuthentication().getPrincipal();
+            //把用户标识以userDetails这个Key加入到JWT的额外信息中去
             Map<String, Object> additionalInfo = new HashMap<>();
             additionalInfo.put("userDetails", principal);
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
